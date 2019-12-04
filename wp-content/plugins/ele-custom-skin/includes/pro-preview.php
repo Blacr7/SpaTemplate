@@ -7,9 +7,24 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 add_action( 'ECS_after_control', function($skin){
+  ecs_days_old();
   
-   
-      $skin->add_control(
+    $skin->add_control(
+			'pro_features',
+			[
+				'label' => '<i class="fa fa-lock" aria-hidden="true"></i> '.__( 'See <b>Pro</b> features', 'ele-custom-skin' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_off' => __( 'Hide', 'ele-custom-skin' ),
+				'label_on' => __( 'Show', 'ele-custom-skin' ),
+        'return_value' => 'yes',
+        'separator' => 'before',
+				'default' => ecs_days_old() > 8 ? '' : 'yes',
+        'frontend_available' => true,
+        'selectors' =>[' '=>' '],
+			]
+		);
+  
+     $skin->add_control(
 			'alternating_templates',
 			[
 				'label' => '<i class="fa fa-lock" aria-hidden="true"></i> '.__( '<b>Alternating templates</b>', 'ele-custom-skin' ),
@@ -21,11 +36,14 @@ add_action( 'ECS_after_control', function($skin){
 				'default' => '',
         'frontend_available' => true,
         'selectors' =>[' '=>' '],
+         'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],
 
 			]
 		);
     
-    $repeater = new \Elementor\Repeater();
+   $repeater = new \Elementor\Repeater();
     
     $repeater->add_control(
 			'nth',
@@ -69,6 +87,7 @@ add_action( 'ECS_after_control', function($skin){
         ],
         'condition' => [
 					$skin->get_id().'_alternating_templates' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes'
 				],
 				'title_field' => '<p style="text-align:center;"><i class="fa fa-lock" aria-hidden="true"></i> '.__('Template for every ', 'ele-custom-skin').'{{{nth}}}'.__('th post', 'ele-custom-skin').'</p>',
 			]
@@ -81,6 +100,9 @@ add_action( 'ECS_after_control', function($skin){
 				'label' => __( 'Display Mode', 'ele-custom-skin' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
         'separator' => 'before',
+        'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],        
 			]
 		);
     if ('2019-09-20' <= date("Y-m-d"))  $skin->add_control(
@@ -95,7 +117,8 @@ add_action( 'ECS_after_control', function($skin){
         'frontend_available' => true,
         'condition' => [
 					$skin->get_id().'_same_height!' => '100%',
-          $skin->get_id().'_post_slider!' => 'yes'
+          $skin->get_id().'_post_slider!' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes'
 				],
 			]
 		);
@@ -108,6 +131,9 @@ add_action( 'ECS_after_control', function($skin){
 				'label_on' => __( 'On', 'ele-custom-skin' ),
         'return_value' => '100%',
 				'default' => 'auto',
+        'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],
 			]
 		);
   
@@ -119,7 +145,7 @@ add_action( 'ECS_after_control', function($skin){
   *
   **/
   
-    if ('2019-09-20' <= date("Y-m-d")) $skin->add_control(
+  $skin->add_control(
 			'post_slider',
 			[
 				'label' => '<i class="fa fa-lock" aria-hidden="true"></i> '.__( 'Show in Slider', 'ele-custom-skin' ),
@@ -131,6 +157,7 @@ add_action( 'ECS_after_control', function($skin){
         'frontend_available' => true,
         'condition' => [
 					$skin->get_id().'_masonrys!' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes',
 				],
 			]
 		);
@@ -144,6 +171,7 @@ add_action( 'ECS_after_control', function($skin){
         'separator' => 'before',
         'condition' => [
 					$skin->get_id().'_post_slider' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes',
 				],
 			]
 		);
@@ -159,6 +187,7 @@ add_action( 'ECS_after_control', function($skin){
 				] + $slides_to_show,
         'condition' => [
 					$skin->get_id().'_post_slider' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes',
 				],
 				'frontend_available' => true,
 			]
@@ -175,6 +204,7 @@ add_action( 'ECS_after_control', function($skin){
 				'condition' => [
 				  $skin->get_id().'_slides_to_show!' => '1',
           $skin->get_id().'_post_slider' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes',
 				],
 				'frontend_available' => true,
 			]
@@ -193,6 +223,7 @@ add_action( 'ECS_after_control', function($skin){
 				],
         'condition' => [
 					$skin->get_id().'_post_slider' => 'yes',
+          $skin->get_id().'_pro_features' => 'yes',
 				],
 				'frontend_available' => true,
 			]
@@ -211,6 +242,9 @@ add_action( 'ECS_after_control', function($skin){
 				'label' => __( 'Dynamic Everywhere', 'ele-custom-skin' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
         'separator' => 'before',
+        'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],
 			]
 		);
   $skin->add_control(
@@ -222,6 +256,9 @@ add_action( 'ECS_after_control', function($skin){
 				'label_off' => __( 'No', 'ele-custom-skin' ),
 				'return_value' => 'yes',
 				'default' => 'no',
+        'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],
 			]
 		);
   
@@ -230,7 +267,10 @@ add_action( 'ECS_after_control', function($skin){
 			[
 				'label' => '',
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => '<div>Replace all the dynamic {{keywords}} from the Loop Template.</div>',  
+				'raw' => '<div>Replace all the dynamic &#123;&#123;keywords&#125;&#125; from the Loop Template.</div>',  
+        'condition' => [
+					$skin->get_id().'_pro_features' => 'yes'
+				],
 			]
 		);
   

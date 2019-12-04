@@ -86,7 +86,14 @@ function ecs_check_for_notification(){
         $i++;
   }
 }
-
+function ecs_days_old(){
+  $user_id = get_current_user_id();
+  $nstall="ecs_instalation";
+  if ( !get_user_meta( $user_id, $nstall ,true )){
+    add_user_meta( $user_id,  $nstall , time()); 
+  }
+  return round((time() - get_user_meta( $user_id, $nstall ,true )) / 86400);
+}
 function ecs_load_notifications(){
 
   $user_id = get_current_user_id();
@@ -94,17 +101,11 @@ function ecs_load_notifications(){
   $ecspro = ecs_is_plugin_active('ele-custom-skin-pro.php') ? true : false;
   $nver='ecs_notification_verification';
   $ndata='ecs_notification_data';
-  $nstall="ecs_instalation";
-  $url='https://www.dropbox.com/s/d1sjvzv4rfkz10u/dudaster-notifications.json?dl=1';
-  
-  if ( !get_user_meta( $user_id, $nstall ,true )){
-    add_user_meta( $user_id,  $nstall , time()); 
-  }
-  $days = round((time() - get_user_meta( $user_id, $nstall ,true )) / 86400);
-  
+  $url='';
+  $days = ecs_days_old();
   if ( get_user_meta( $user_id, $nver ,true ) < $current_date){
 //get data from url
-     $content = ecs_file_get($url);
+     $content = ecs_data_get($url);
      $notifications = json_decode($content,true);
 // set the data inside user metadata
    if(is_array($notifications)) {
@@ -138,7 +139,8 @@ function ecs_load_notifications(){
   return $return_notification;
 }
 
-function ecs_file_get($url){
+function ecs_data_get($url){
+  if(!$url) return false; 
   $response = wp_remote_get($url,array( 'timeout' => 2 ));
   if( is_array($response) ) {
     $header = $response['headers']; // array of http header lines

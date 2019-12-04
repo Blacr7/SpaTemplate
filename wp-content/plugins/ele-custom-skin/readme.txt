@@ -4,7 +4,7 @@ Tags: page-builder, elementor, loop, archive list, post widget, skin, custom, po
 Donate link: https://www.paypal.me/dudaster
 Requires at least: 5.0
 Tested up to: 5.3.1
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,11 @@ Add to your template a Post or Post Archive widget and from Skins select Custom 
 2. /assets/screenshot-2.png
 
 == Changelog ==
+
+= 1.3.9 =
+* Solved compatibility issues with Elementor 2.8
+* Fixing issue with Title Widget not showing.
+* Added support for Flip Box Widget background. 
 
 = 1.3.8 =
 * Fixing minor issues.

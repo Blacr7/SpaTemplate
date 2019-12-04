@@ -24,6 +24,10 @@ class ECS_Enqueue_Style {
 				return $options;
 	}
   public function frontend_styles() {
+    //adding some css fixes
+
+    wp_enqueue_style('ecs-styles', plugin_dir_url(__DIR__) . 'assets/css/ecs-style.css');
+    
     $styles=$this->get_skin_template();
     $upload_dir = wp_upload_dir();
     

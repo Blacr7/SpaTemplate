@@ -70,7 +70,7 @@ class Skin_Posts_ECS extends Skin_Base {
 		);
   
     do_action( 'ECS_after_control', $this );
-    
+   
   $this->add_control(
 			'hr2',
 			[
